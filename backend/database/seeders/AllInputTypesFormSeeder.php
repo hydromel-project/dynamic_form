@@ -12,12 +12,8 @@ class AllInputTypesFormSeeder extends Seeder
      */
     public function run(): void
     {
-        $form = Form::create([
-            'name' => 'All Input Types Demo Form',
-            'description' => 'A form demonstrating all available input types.',
-        ]);
-
-        $form->questions()->createMany([
+        // Define questions data first
+        $questionsData = [
             [
                 'question_text' => 'Enter your full name:',
                 'type' => 'text',
@@ -73,6 +69,33 @@ class AllInputTypesFormSeeder extends Seeder
                 'required' => false,
                 'order' => 9,
             ],
+        ];
+
+        // Create the Form record with a temporary json_schema
+        $form = Form::create([
+            'name' => 'All Input Types Demo Form',
+            'description' => 'A form demonstrating all available input types.',
+            'json_schema' => [], // Temporary empty array
+        ]);
+
+        // Create the questions associated with the form
+        $questions = $form->questions()->createMany($questionsData);
+
+        // Now, update the form's json_schema with the actual question IDs
+        $formSchema = $questions->map(function ($question) {
+            return [
+                'id' => $question->id,
+                'question_text' => $question->question_text,
+                'type' => $question->type,
+                'options' => $question->options, // This will be null for non-select types
+                'conditional_rules' => $question->conditional_rules, // This will be null for non-conditional types
+                'required' => $question->required,
+                'order' => $question->order,
+            ];
+        })->sortBy('order')->values()->all();
+
+        $form->update([
+            'json_schema' => $formSchema,
         ]);
     }
 }
