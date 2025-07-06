@@ -6,8 +6,11 @@ import Layout from '@/components/layout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import FormsListPage from '@/pages/FormsListPage';
 import FormPage from '@/pages/FormPage';
+import useSessionChecker from '@/hooks/useSessionChecker';
 
 const App: React.FC = () => {
+  useSessionChecker(); // Call the session checker hook
+
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
