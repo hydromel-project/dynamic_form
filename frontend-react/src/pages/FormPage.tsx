@@ -4,6 +4,7 @@ import DynamicForm from '@/components/DynamicForm';
 import { getFormById } from '@/services/formService';
 import { Form } from '@/types/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const FormPage: React.FC = () => {
   const { formId } = useParams<{ formId: string }>();
@@ -41,6 +42,8 @@ const FormPage: React.FC = () => {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">Please wait while the form is being loaded.</p>
+            <Skeleton className="h-4 w-[250px] mt-4" />
+            <Skeleton className="h-4 w-[200px] mt-2" />
           </CardContent>
         </Card>
       </div>
