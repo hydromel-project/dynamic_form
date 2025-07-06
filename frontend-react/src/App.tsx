@@ -1,11 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import Layout from './components/Layout';
-import { isAuthenticated } from './services/session';
-import FormPage from './pages/FormPage';
-import FormsListPage from './pages/FormsListPage';
+import LoginPage from '@/pages/LoginPage';
+import HomePage from '@/pages/HomePage';
+import Layout from '@/components/layout'; // Import the new Layout component
+import { isAuthenticated } from '@/services/session';
 
 const App: React.FC = () => {
   return (
@@ -16,9 +14,7 @@ const App: React.FC = () => {
           path="/"
           element={isAuthenticated() ? <HomePage /> : <LoginPage />}
         />
-        <Route path="/forms" element={isAuthenticated() ? <FormsListPage /> : <LoginPage />} />
-        <Route path="/forms/:formId" element={isAuthenticated() ? <FormPage /> : <LoginPage />} />
-        {/* Add other routes here, e.g., for supervisor dashboard */}
+        {/* Add other routes here, e.g., for forms, supervisor dashboard */}
       </Routes>
     </Layout>
   );
