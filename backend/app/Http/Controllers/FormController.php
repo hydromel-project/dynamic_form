@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use Illuminate\Http\Request;
+use App\Http\Resources\FormResource; // Import FormResource
 
 class FormController extends Controller
 {
@@ -12,7 +13,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        return Form::all();
+        return FormResource::collection(Form::all());
     }
 
     /**
@@ -28,7 +29,7 @@ class FormController extends Controller
 
         $form = Form::create($validated);
 
-        return response()->json($form, 201);
+        return new FormResource($form); // Use FormResource
     }
 
     /**
@@ -36,22 +37,7 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        // Ensure json_schema is properly cast and its nested options are also arrays
-        $formArray = $form->toArray();
-
-        if (isset($formArray['json_schema']) && is_string($formArray['json_schema'])) {
-            $formArray['json_schema'] = json_decode($formArray['json_schema'], true);
-        }
-
-        if (isset($formArray['json_schema']) && is_array($formArray['json_schema'])) {
-            foreach ($formArray['json_schema'] as &$question) {
-                if (isset($question['options']) && is_string($question['options'])) {
-                    $question['options'] = json_decode($question['options'], true);
-                }
-            }
-        }
-
-        return response()->json($formArray);
+        return new FormResource($form); // Use FormResource
     }
 
     /**
@@ -67,7 +53,7 @@ class FormController extends Controller
 
         $form->update($validated);
 
-        return response()->json($form);
+        return new FormResource($form); // Use FormResource
     }
 
     /**
