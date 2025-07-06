@@ -16,7 +16,7 @@ export interface Question {
   id: number;
   form_id: number;
   question_text: string;
-  type: 'text' | 'number' | 'boolean' | '1-10_scale' | 'file' | 'photo' | 'select'; // Added 'select'
+  type: 'text' | 'number' | 'boolean' | '1-10_scale' | 'file' | 'photo' | 'select' | 'yes_no'; // Added 'yes_no'
   options?: string[]; // Assuming options for select are string arrays
   conditional_rules?: ConditionalRule; // JSON for conditional logic
   required: boolean;

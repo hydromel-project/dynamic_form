@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface QuestionRendererProps {
   question: Question;
@@ -52,6 +53,17 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             />
             <Label htmlFor={`checkbox-${question.id}`}>Yes</Label>
           </div>
+        );
+      case 'yes_no': // New case for yes/no selector
+        return (
+          <ToggleGroup type="single" value={value ? 'yes' : 'no'} onValueChange={(val) => onChange(val === 'yes')}>
+            <ToggleGroupItem value="yes" aria-label="Toggle yes">
+              Yes
+            </ToggleGroupItem>
+            <ToggleGroupItem value="no" aria-label="Toggle no">
+              No
+            </ToggleGroupItem>
+          </ToggleGroup>
         );
       case '1-10_scale':
         return (
