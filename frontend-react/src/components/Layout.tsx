@@ -1,17 +1,28 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { isAuthenticated, logout } from '@/services/session';
 import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Separator } from '@/components/ui/separator';
+import { Home, FormInput, LayoutDashboard, Menu, Sun, Moon, Laptop, Palette } from 'lucide-react';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
+const navigationItems = [
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/forms', label: 'Forms', icon: FormInput },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+];
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { theme, toggleDarkMode, toggleTokyoNight } = useTheme();
+  const { theme, setTheme, toggleDarkMode, toggleTokyoNight } = useTheme();
   const isLoggedIn = isAuthenticated();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -19,60 +30,116 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-text transition-colors duration-300">
-      <header className="bg-primary text-primary-foreground p-4 shadow-md">
-        <nav className="container mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold">
+    <div className="min-h-screen flex bg-background text-foreground">
+      {/* Desktop Sidebar */}
+      <aside
+        className={`hidden md:flex flex-col h-screen border-r bg-card text-card-foreground transition-all duration-300 ease-in-out
+          ${isSidebarCollapsed ? 'w-20' : 'w-64'}`}
+      >
+        <div className="flex items-center justify-center h-16 border-b px-4">
+          {!isSidebarCollapsed ? (
+            <Link to="/" className="text-xl font-bold whitespace-nowrap">
+              Dynamic Forms
+            </Link>
+          ) : (
+            <Link to="/" className="text-xl font-bold">
+              DF
+            </Link>
+          )}
+        </div>
+        <nav className="flex-1 px-2 py-4 space-y-1">
+          {navigationItems.map((item) => (
+            <TooltipProvider key={item.href}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    to={item.href}
+                    className={`flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground
+                      ${isSidebarCollapsed ? 'justify-center' : ''}`}
+                  >
+                    <item.icon className={`h-5 w-5 ${!isSidebarCollapsed ? 'mr-3' : ''}`} />
+                    {!isSidebarCollapsed && item.label}
+                  </Link>
+                </TooltipTrigger>
+                {isSidebarCollapsed && <TooltipContent side="right">{item.label}</TooltipContent>}
+              </Tooltip>
+            </TooltipProvider>
+          ))}
+        </nav>
+        <div className="p-4 border-t">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          >
+            {isSidebarCollapsed ? 'Expand' : 'Collapse'}
+          </Button>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Mobile Header */}
+        <header className="md:hidden flex items-center justify-between h-16 border-b bg-card text-card-foreground px-4">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64">
+              <div className="flex items-center h-16 border-b px-4">
+                <Link to="/" className="text-xl font-bold">
+                  Dynamic Forms
+                </Link>
+              </div>
+              <nav className="flex-1 px-2 py-4 space-y-1">
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className="flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+                  >
+                    <item.icon className="h-5 w-5 mr-3" />
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <div className="p-4 border-t">
+                {isLoggedIn ? (
+                  <Button variant="destructive" onClick={handleLogout} className="w-full">
+                    Logout
+                  </Button>
+                ) : (
+                  <Link to="/login" className="w-full">
+                    <Button className="w-full">Login</Button>
+                  </Link>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Link to="/" className="text-xl font-bold">
             Dynamic Forms
           </Link>
-          <div className="flex items-center space-x-4">
-            {isLoggedIn && (
-              <Link to="/forms" className="hover:underline">
-                Forms
-              </Link>
-            )}
-            {isLoggedIn && (
-              <Link to="/dashboard" className="hover:underline">
-                Dashboard
-              </Link>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleDarkMode}
-            >
-              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          {/* Theme Toggles for Mobile */}
+          <div className="flex items-center space-x-2">
+            <Button variant="outline" size="icon" onClick={toggleDarkMode}>
+              {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleTokyoNight}
-            >
-              {theme.includes('tokyo') ? 'Default Theme' : 'Tokyo Night'}
+            <Button variant="outline" size="icon" onClick={toggleTokyoNight}>
+              <Palette className="h-5 w-5" />
             </Button>
-            {isLoggedIn ? (
-              <Button
-                variant="destructive"
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            ) : (
-              <Link to="/login">
-                <Button variant="default">
-                  Login
-                </Button>
-              </Link>
-            )}
           </div>
-        </nav>
-      </header>
-      <main className="flex-grow container mx-auto p-4">
-        {children}
-      </main>
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        <p>&copy; 2024 Dynamic Forms. All rights reserved.</p>
-      </footer>
+        </header>
+
+        <main className="flex-1 overflow-auto p-4">
+          {children}
+        </main>
+
+        <footer className="border-t bg-card text-card-foreground p-4 text-center text-sm">
+          <p>&copy; 2024 Dynamic Forms. All rights reserved.</p>
+        </footer>
+      </div>
     </div>
   );
 };
