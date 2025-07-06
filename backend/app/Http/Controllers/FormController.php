@@ -36,7 +36,8 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        return $form;
+        // Ensure json_schema is properly cast by re-serializing the model
+        return response()->json($form->toArray());
     }
 
     /**
