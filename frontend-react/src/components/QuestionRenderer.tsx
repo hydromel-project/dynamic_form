@@ -43,18 +43,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             required={question.required}
           />
         );
-      case 'boolean':
-        return (
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id={`checkbox-${question.id}`}
-              checked={!!value}
-              onCheckedChange={onChange}
-            />
-            <Label htmlFor={`checkbox-${question.id}`}>Yes</Label>
-          </div>
-        );
-      case 'yes_no': // New case for yes/no selector
+      case 'boolean': // Handle backend 'boolean' type as yes/no selector
         return (
           <ToggleGroup type="single" value={value ? 'yes' : 'no'} onValueChange={(val) => onChange(val === 'yes')}>
             <ToggleGroupItem value="yes" aria-label="Toggle yes">
