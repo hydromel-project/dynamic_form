@@ -1,243 +1,7 @@
-
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
-/* frontend-react/src/index.css */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  /* Catppuccin Latte (Light Theme - Default) */
-  --ctp-latte-rosewater: 220, 138, 120;
-  --ctp-latte-flamingo: 221, 120, 120;
-  --ctp-latte-pink: 234, 118, 203;
-  --ctp-latte-mauve: 136, 57, 239;
-  --ctp-latte-red: 210, 15, 57;
-  --ctp-latte-maroon: 230, 69, 83;
-  --ctp-latte-peach: 254, 100, 11;
-  --ctp-latte-yellow: 223, 142, 29;
-  --ctp-latte-green: 64, 160, 43;
-  --ctp-latte-teal: 23, 146, 153;
-  --ctp-latte-sky: 4, 165, 229;
-  --ctp-latte-sapphire: 32, 159, 181;
-  --ctp-latte-blue: 30, 102, 200;
-  --ctp-latte-lavender: 114, 135, 253;
-  --ctp-latte-text: 76, 79, 105;
-  --ctp-latte-subtext1: 92, 95, 120;
-  --ctp-latte-subtext0: 108, 111, 133;
-  --ctp-latte-overlay2: 124, 127, 147;
-  --ctp-latte-overlay1: 140, 143, 161;
-  --ctp-latte-overlay0: 156, 160, 176;
-  --ctp-latte-surface2: 172, 176, 190;
-  --ctp-latte-surface1: 188, 192, 204;
-  --ctp-latte-surface0: 204, 208, 218;
-  --ctp-latte-base: 239, 241, 245;
-  --ctp-latte-mantle: 230, 233, 239;
-  --ctp-latte-crust: 220, 224, 232;
-
-  /* Default colors for light mode */
-  --color-primary: var(--ctp-latte-blue);
-  --color-text: var(--ctp-latte-text);
-  --color-background: var(--ctp-latte-base);
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  /* Catppuccin Macchiato (Dark Theme - Default) */
-  --ctp-macchiato-rosewater: 244, 219, 214;
-  --ctp-macchiato-flamingo: 237, 199, 208;
-  --ctp-macchiato-pink: 245, 189, 230;
-  --ctp-macchiato-mauve: 198, 160, 246;
-  --ctp-macchiato-red: 237, 135, 150;
-  --ctp-macchiato-maroon: 238, 153, 160;
-  --ctp-macchiato-peach: 245, 169, 127;
-  --ctp-macchiato-yellow: 244, 204, 116;
-  --ctp-macchiato-green: 166, 209, 137;
-  --ctp-macchiato-teal: 140, 200, 180;
-  --ctp-macchiato-sky: 153, 209, 219;
-  --ctp-macchiato-sapphire: 124, 184, 242;
-  --ctp-macchiato-blue: 138, 173, 244;
-  --ctp-macchiato-lavender: 183, 189, 248;
-  --ctp-macchiato-text: 204, 205, 219;
-  --ctp-macchiato-subtext1: 181, 182, 196;
-  --ctp-macchiato-subtext0: 162, 163, 177;
-  --ctp-macchiato-overlay2: 143, 144, 158;
-  --ctp-macchiato-overlay1: 124, 125, 139;
-  --ctp-macchiato-overlay0: 105, 106, 120;
-  --ctp-macchiato-surface2: 86, 87, 101;
-  --ctp-macchiato-surface1: 67, 68, 82;
-  --ctp-macchiato-surface0: 48, 49, 63;
-  --ctp-macchiato-base: 36, 39, 58;
-  --ctp-macchiato-mantle: 30, 32, 48;
-  --ctp-macchiato-crust: 24, 25, 38;
-
-  /* Default colors for dark mode */
-  --color-primary: var(--ctp-macchiato-blue);
-  --color-text: var(--ctp-macchiato-text);
-  --color-background: var(--ctp-macchiato-base);
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
-/* Tokyo Night Light Theme */
-.theme-tokyo-light {
-  --tokyo-night-light-bg: 235, 238, 245;
-  --tokyo-night-light-fg: 60, 64, 80;
-  --tokyo-night-light-red: 220, 80, 80;
-  --tokyo-night-light-green: 100, 180, 60;
-  --tokyo-night-light-yellow: 200, 160, 60;
-  --tokyo-night-light-blue: 60, 120, 200;
-  --tokyo-night-light-magenta: 180, 60, 180;
-  --tokyo-night-light-cyan: 60, 180, 180;
-  --tokyo-night-light-white: 0, 0, 0;
-  --tokyo-night-light-black: 255, 255, 255;
-
-  /* Override default colors for Tokyo Night Light */
-  --color-primary: var(--tokyo-night-light-blue);
-  --color-text: var(--tokyo-night-light-fg);
-  --color-background: var(--tokyo-night-light-bg);
-}
-
-/* Tokyo Night Dark Theme */
-.theme-tokyo-dark {
-  --tokyo-night-dark-bg: 41, 44, 60;
-  --tokyo-night-dark-fg: 199, 208, 235;
-  --tokyo-night-dark-red: 247, 100, 100;
-  --tokyo-night-dark-green: 152, 200, 100;
-  --tokyo-night-dark-yellow: 220, 180, 100;
-  --tokyo-night-dark-blue: 100, 150, 220;
-  --tokyo-night-dark-magenta: 200, 100, 200;
-  --tokyo-night-dark-cyan: 100, 200, 200;
-  --tokyo-night-dark-white: 255, 255, 255;
-  --tokyo-night-dark-black: 0, 0, 0;
-
-  /* Override default colors for Tokyo Night Dark */
-  --color-primary: var(--tokyo-night-dark-blue);
-  --color-text: var(--tokyo-night-dark-fg);
-  --color-background: var(--tokyo-night-dark-bg);
-}
-
-/* Apply default colors to body */
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  color: rgb(var(--color-text));
-  background-color: rgb(var(--color-background));
-  transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for theme changes */
-}
-
-/* Remove existing conflicting styles */
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark; /* Keep this for browser preference */
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: rgb(var(--color-primary)); /* Use primary color for links */
-  text-decoration: inherit;
-}
-a:hover {
-  color: rgb(var(--color-primary) / 0.8); /* Slightly darker on hover */
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: rgb(var(--color-primary)); /* Use primary color for buttons */
-  color: rgb(var(--color-background)); /* Text color for buttons */
-  cursor: pointer;
-  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
-}
-button:hover {
-  border-color: rgb(var(--color-primary) / 0.8);
-  background-color: rgb(var(--color-primary) / 0.8);
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto rgb(var(--color-primary) / 0.5);
-}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -275,6 +39,75 @@ button:focus-visible {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
