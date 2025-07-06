@@ -2,21 +2,27 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from '@/pages/LoginPage';
 import HomePage from '@/pages/HomePage';
-import Layout from '@/components/layout'; // Import the new Layout component
-import { isAuthenticated } from '@/services/session';
+import Layout from '@/components/layout';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 const App: React.FC = () => {
   return (
-    <Layout>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={isAuthenticated() ? <HomePage /> : <LoginPage />}
-        />
-        {/* Add other routes here, e.g., for forms, supervisor dashboard */}
-      </Routes>
-    </Layout>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                {/* Add other protected routes here, e.g., for forms, supervisor dashboard */}
+              </Routes>
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 };
 

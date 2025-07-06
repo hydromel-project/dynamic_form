@@ -1,12 +1,12 @@
 import React, { ReactNode, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { isAuthenticated, logout } from '@/services/session';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
 import { Home, FormInput, LayoutDashboard, Menu, Sun, Moon, Palette } from 'lucide-react';
 import { useTheme } from '@/components/theme-provider';
+import { useAuth } from '@/context/AuthContext'; // Import useAuth
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,12 +20,12 @@ const navigationItems = [
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme(); // Use the shadcn/ui useTheme hook
-  const isLoggedIn = isAuthenticated();
+  const { theme, setTheme } = useTheme();
+  const { isLoggedIn, logout } = useAuth(); // Use isLoggedIn and logout from useAuth
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout(); // Use logout from AuthContext
     navigate('/login');
   };
 
@@ -34,15 +34,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const toggleTokyoNight = () => {
-    // This assumes you have classes like .theme-tokyo-light and .theme-tokyo-dark defined in your CSS
-    // and that the ThemeProvider's setTheme can handle these custom theme names.
-    // If not, you'll need to adjust your ThemeProvider to support multiple custom themes.
     if (theme === 'tokyo-dark') {
-      setTheme('light'); // Go back to default light
+      setTheme('light');
     } else if (theme === 'tokyo-light') {
       setTheme('tokyo-dark');
     } else {
-      setTheme('tokyo-light'); // Start with Tokyo Night Light
+      setTheme('tokyo-light');
     }
   };
 
@@ -65,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           )}
         </div>
         <nav className="flex-1 px-2 py-4 space-y-1">
-          {navigationItems.map((item) => (
+          {isLoggedIn && navigationItems.map((item) => ( // Conditionally render navigation items
             <TooltipProvider key={item.href}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -111,7 +108,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </Link>
               </div>
               <nav className="flex-1 px-2 py-4 space-y-1">
-                {navigationItems.map((item) => (
+                {isLoggedIn && navigationItems.map((item) => ( // Conditionally render navigation items
                   <Link
                     key={item.href}
                     to={item.href}
