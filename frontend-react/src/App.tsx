@@ -4,6 +4,8 @@ import LoginPage from '@/pages/LoginPage';
 import HomePage from '@/pages/HomePage';
 import Layout from '@/components/layout';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import FormsListPage from '@/pages/FormsListPage';
+import FormPage from '@/pages/FormPage';
 
 const App: React.FC = () => {
   return (
@@ -16,7 +18,9 @@ const App: React.FC = () => {
             <Layout>
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                {/* Add other protected routes here, e.g., for forms, supervisor dashboard */}
+                <Route path="/forms" element={<FormsListPage />} />
+                <Route path="/forms/:formId" element={<FormPage />} />
+                {/* Add other protected routes here, e.g., for supervisor dashboard */}
               </Routes>
             </Layout>
           </ProtectedRoute>
