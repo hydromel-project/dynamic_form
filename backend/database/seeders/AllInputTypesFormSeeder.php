@@ -53,7 +53,7 @@ class AllInputTypesFormSeeder extends Seeder
             [
                 'question_text' => 'Select your favorite color:',
                 'type' => 'select',
-                'options' => json_encode(['Red', 'Blue', 'Green', 'Yellow']),
+                'options' => ['Red', 'Blue', 'Green', 'Yellow'], // Removed json_encode
                 'required' => true,
                 'order' => 7,
             ],
