@@ -1,4 +1,4 @@
-import apiClient from '@/api/apiClient';
+import http from '@/api/http';
 
 interface AuthResponse {
   token: string;
@@ -11,7 +11,7 @@ interface AuthResponse {
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
   try {
-    const response = await apiClient.post<AuthResponse>('/login', { email, password });
+    const response = await http.post<AuthResponse>('/login', { email, password });
     localStorage.setItem('authToken', response.data.token);
     return response.data;
   } catch (error) {
@@ -22,7 +22,7 @@ export const login = async (email: string, password: string): Promise<AuthRespon
 
 export const logout = async (): Promise<void> => {
   try {
-    await apiClient.post('/logout');
+    await http.post('/logout');
     localStorage.removeItem('authToken');
   } catch (error) {
     console.error('Logout failed:', error);
