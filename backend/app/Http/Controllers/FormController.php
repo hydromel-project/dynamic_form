@@ -36,8 +36,22 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        // Ensure json_schema is properly cast by re-serializing the model
-        return response()->json($form->toArray());
+        // Ensure json_schema is properly cast and its nested options are also arrays
+        $formArray = $form->toArray();
+
+        if (isset($formArray['json_schema']) && is_string($formArray['json_schema'])) {
+            $formArray['json_schema'] = json_decode($formArray['json_schema'], true);
+        }
+
+        if (isset($formArray['json_schema']) && is_array($formArray['json_schema'])) {
+            foreach ($formArray['json_schema'] as &$question) {
+                if (isset($question['options']) && is_string($question['options'])) {
+                    $question['options'] = json_decode($question['options'], true);
+                }
+            }
+        }
+
+        return response()->json($formArray);
     }
 
     /**
