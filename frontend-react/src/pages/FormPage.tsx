@@ -21,6 +21,7 @@ const FormPage: React.FC = () => {
       }
       try {
         const fetchedForm = await getFormById(parseInt(formId));
+        console.log('Fetched Form Data:', fetchedForm); // Added for debugging
         setForm(fetchedForm);
       } catch (err) {
         setError('Failed to load form.');

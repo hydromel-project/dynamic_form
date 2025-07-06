@@ -14,10 +14,25 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form }) => {
   const [visibleQuestions, setVisibleQuestions] = useState<Record<number, boolean>>({});
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
+  // Defensive checks for json_schema and questions
+  if (!form || !Array.isArray(form.json_schema)) {
+    return (
+      <Card className="space-y-6 p-6">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">{form?.name || 'Form'}</CardTitle>
+          <CardDescription>{form?.description || 'No form schema available.'}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-destructive">Error: Invalid form schema. Please check the form definition.</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   useEffect(() => {
     // Initialize visibility for all questions
     const initialVisibility: Record<number, boolean> = {};
-    form.json_schema.questions.forEach(q => {
+    form.json_schema.forEach(q => {
       initialVisibility[q.id] = true; // Assume visible by default
     });
     setVisibleQuestions(initialVisibility);
@@ -26,7 +41,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form }) => {
   useEffect(() => {
     // Re-evaluate visibility when answers change
     const newVisibleQuestions: Record<number, boolean> = { ...visibleQuestions };
-    form.json_schema.questions.forEach(q => {
+    form.json_schema.forEach(q => {
       if (q.conditional_rules) {
         const rule = q.conditional_rules.show_if;
         const dependentQuestionAnswer = answers[rule.question_id];
@@ -54,7 +69,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form }) => {
       }
     });
     setVisibleQuestions(newVisibleQuestions);
-  }, [answers, form.json_schema.questions]);
+  }, [answers, form.json_schema]);
 
   const handleAnswerChange = (questionId: number, value: any) => {
     setAnswers((prevAnswers) => ({
@@ -71,7 +86,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form }) => {
     const answersToSubmit: Record<number, any> = {};
     let isValid = true;
 
-    form.json_schema.questions.forEach(q => {
+    form.json_schema.forEach(q => {
       if (visibleQuestions[q.id]) {
         if (q.required && (answers[q.id] === undefined || answers[q.id] === null || answers[q.id] === '')) {
           isValid = false; // Mark form as invalid if a required visible question is not answered
@@ -106,7 +121,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form }) => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {form.json_schema.questions.map((question) => (
+          {form.json_schema.map((question) => (
             <QuestionRenderer
               key={question.id}
               question={question}

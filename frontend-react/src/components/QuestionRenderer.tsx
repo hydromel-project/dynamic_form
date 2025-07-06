@@ -3,6 +3,7 @@ import { Question } from '@/types/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface QuestionRendererProps {
   question: Question;
@@ -71,6 +72,21 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             onChange={(e) => onChange(e.target.files ? e.target.files[0] : null)}
             required={question.required}
           />
+        );
+      case 'select':
+        return (
+          <Select onValueChange={onChange} value={value || ''}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select an option" />
+            </SelectTrigger>
+            <SelectContent>
+              {question.options?.map((option: string) => (
+                <SelectItem key={option} value={option}>
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         );
       default:
         return <p className="text-red-500">Unsupported question type: {question.type}</p>;
