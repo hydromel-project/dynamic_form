@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RolesAndPermissionsSeeder::class);
         $this->call(SafetyProcedureSeeder::class);
+        $this->call(AllInputTypesFormSeeder::class);
 
         User::factory()->create([
             'name' => 'Test User',
