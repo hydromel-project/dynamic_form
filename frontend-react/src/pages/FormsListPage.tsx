@@ -1,11 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const FormsListPage: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-gray-800">Forms List Page (Coming Soon!)</h1>
-      <p className="text-lg text-gray-600 mt-4">You can navigate to a specific form using /forms/:formId</p>
-      <p className="text-lg text-gray-600 mt-4">Example: <a href="/forms/1" className="text-blue-500">/forms/1</a></p>
+    <div className="flex items-center justify-center h-full">
+      <Card className="w-full max-w-md text-center">
+        <CardHeader>
+          <CardTitle>Forms List Page</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-muted-foreground">
+            This page will display a list of all available forms.
+          </p>
+          <p className="text-muted-foreground">
+            For now, you can navigate to a specific form using its ID.
+          </p>
+          <Link to="/forms/1">
+            <Button variant="outline">Go to Form 1 (Example)</Button>
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   );
 };

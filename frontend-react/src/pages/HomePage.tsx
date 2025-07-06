@@ -1,9 +1,17 @@
 import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-gray-800">Welcome to the Home Page!</h1>
+    <div className="flex items-center justify-center h-full">
+      <Card className="w-full max-w-md text-center">
+        <CardHeader>
+          <CardTitle>Welcome to the Home Page!</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">Your journey begins here.</p>
+        </CardContent>
+      </Card>
     </div>
   );
 };
