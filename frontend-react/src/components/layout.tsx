@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
-import { Home, FormInput, LayoutDashboard, Menu, Sun, Moon, Palette } from 'lucide-react';
+import { Home, FormInput, LayoutDashboard, Menu, Sun, Moon, Palette, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/components/theme-provider';
 import { useAuth } from '@/context/AuthContext'; // Import useAuth
 
@@ -15,6 +15,7 @@ interface LayoutProps {
 const navigationItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/forms', label: 'Forms', icon: FormInput },
+  { href: '/all-field-types', label: 'All Field Types', icon: FormInput }, // New navigation item
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
 ];
 
@@ -81,12 +82,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           ))}
         </nav>
         <div className="p-4 border-t">
+          {isLoggedIn && (
+            <Button
+              variant="ghost"
+              className="w-full mb-2"
+              onClick={handleLogout}
+            >
+              <LogOut className={`h-5 w-5 ${!isSidebarCollapsed ? 'mr-2' : ''}`} />
+              {!isSidebarCollapsed && 'Logout'}
+            </Button>
+          )}
           <Button
             variant="outline"
             className="w-full"
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
           >
-            {isSidebarCollapsed ? 'Expand' : 'Collapse'}
+            {isSidebarCollapsed ? (
+              <ChevronRight className="h-5 w-5" />
+            ) : (
+              <ChevronLeft className="h-5 w-5 mr-2" />
+            )}
+            {!isSidebarCollapsed && (isSidebarCollapsed ? 'Expand' : 'Collapse')}
           </Button>
         </div>
       </aside>
@@ -108,7 +124,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </Link>
               </div>
               <nav className="flex-1 px-2 py-4 space-y-1">
-                {isLoggedIn && navigationItems.map((item) => ( // Conditionally render navigation items
+                {isLoggedIn && navigationItems.map((item) => (
                   <Link
                     key={item.href}
                     to={item.href}

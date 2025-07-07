@@ -6,6 +6,7 @@ import Layout from '@/components/layout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import FormsListPage from '@/pages/FormsListPage';
 import FormPage from '@/pages/FormPage';
+import AllFieldTypesPage from '@/pages/AllFieldTypesPage'; // Import the new page
 import useSessionChecker from '@/hooks/useSessionChecker';
 
 const App: React.FC = () => {
@@ -23,6 +24,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/forms" element={<FormsListPage />} />
                 <Route path="/forms/:formId" element={<FormPage />} />
+                <Route path="/all-field-types" element={<AllFieldTypesPage />} /> {/* New route */}
                 {/* Add other protected routes here, e.g., for supervisor dashboard */}
               </Routes>
             </Layout>
