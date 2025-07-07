@@ -12,7 +12,7 @@ This document provides a comprehensive overview of the Dynamic Form Management S
 4.  [Codebase Overview](#4-codebase-overview)
     *   [Project Structure](#project-structure)
     *   [Backend (Laravel)](#backend-laravel)
-    *   [Frontend (Vue.js)](#frontend-vuejs)
+    *   [Frontend (React.js)](#frontend-reactjs)
 5.  [Setup and Running Locally](#5-setup-and-running-locally)
     *   [Prerequisites](#prerequisites)
     *   [Backend Setup](#backend-setup)
@@ -39,13 +39,13 @@ This project aims to build a dynamic, self-hosted form management system that al
 *   Scramble (API documentation generator)
 
 **Frontend:**
-*   Vue 3
+*   React.js
 *   Vite
-*   Pinia (State Management)
-*   Vue Router
-*   Vuestic UI (Component Library)
-*   Zod (Schema Validation)
+*   pnpm
+*   shadcn/ui
+*   React Router DOM
 *   Axios (HTTP Client)
+*   date-fns
 
 ## 3. API Documentation
 
@@ -74,28 +74,35 @@ You can use tools like [Swagger UI](https://swagger.io/tools/swagger-ui/) or [Po
 The project is organized into two main top-level directories:
 
 *   `backend/`: Contains the Laravel API application.
-*   `frontend/`: Contains the Vue.js Single Page Application (SPA).
+*   `frontend-react/`: Contains the React.js Single Page Application (SPA).
 
 ### Backend (Laravel)
 
 *   **`app/Http/Controllers/`**: Contains the API controllers (`AuthController`, `FormController`, `QuestionController`, `ResponseController`, `SupervisorController`) that handle incoming HTTP requests and return JSON responses.
 *   **`app/Models/`**: Defines the Eloquent models (`User`, `Form`, `Question`, `Response`, `ResponseAnswer`) that interact with the database.
 *   **`database/migrations/`**: Database schema definitions for all tables.
-*   **`database/seeders/`**: Contains seeders (`RolesAndPermissionsSeeder`, `SafetyProcedureSeeder`) for populating the database with initial data and demo content.
+*   **`database/seeders/`**: Contains seeders (`RolesAndPermissionsSeeder`, `SafetyProcedureSeeder`, `AllInputTypesFormSeeder`) for populating the database with initial data and demo content.
 *   **`routes/api.php`**: Defines all API routes, including authentication, forms, questions, responses, and supervisor endpoints. These routes are prefixed with `/api` and use the `api` middleware group.
 *   **`bootstrap/app.php`**: The core Laravel application bootstrap file, responsible for loading routes and middleware.
 *   **`app/Http/Kernel.php`**: Defines the application's HTTP middleware stack and middleware groups (`web`, `api`).
 *   **`app/Providers/RouteServiceProvider.php`**: Configures how routes are loaded and middleware is applied.
+*   **`app/Http/Resources/`**: Contains API Resources (`FormResource`, `QuestionResource`) for transforming Eloquent models into JSON responses.
 
-### Frontend (Vue.js)
+### Frontend (React.js)
 
-*   **`src/components/`**: Reusable Vue components, such as `FormRenderer.vue` for dynamic form rendering.
-*   **`src/views/`**: Vue components that serve as pages or views, such as `LoginView.vue` and `FormsListView.vue`.
-*   **`src/stores/`**: Pinia stores (`auth.ts`) for centralized state management, particularly for authentication.
-*   **`src/router/index.ts`**: Configures Vue Router, defining application routes and navigation guards.
-*   **`src/schemas/index.ts`**: Zod schemas for data validation and type inference, mirroring backend models.
-*   **`src/plugins/axios.ts`**: Axios interceptors for handling authentication headers and response errors.
-*   **`src/main.ts`**: The main entry point for the Vue application, where Vuestic UI, Pinia, and Vue Router are initialized.
+*   **`src/api/`**: Contains `apiClient.ts` (Axios instance with interceptors) and `http.ts` (Axios proxy for simplified requests).
+*   **`src/components/`**: Reusable React components, including `layout.tsx` (main application layout), `login-form.tsx`, `DynamicForm.tsx`, `QuestionRenderer.tsx`, and `ProtectedRoute.tsx`.
+*   **`src/components/ui/`**: `shadcn/ui` components (e.g., `button`, `input`, `card`, `select`, `toggle-group`, `radio-group`, `calendar`, `popover`, `checkbox`, `separator`, `tooltip`).
+*   **`src/context/`**: React Contexts, including `AuthContext.tsx` for global authentication state management.
+*   **`src/hooks/`**: Custom React hooks, including `useSessionChecker.ts` for periodic session validation.
+*   **`src/pages/`**: Page-level components, such as `LoginPage.tsx`, `HomePage.tsx`, `FormsListPage.tsx`, `FormPage.tsx`, and `AllFieldTypesPage.tsx`.
+*   **`src/services/`**: Service files for interacting with the backend API, including `session.ts` and `formService.ts`.
+*   **`src/types/`**: TypeScript type definitions (`form.d.ts`).
+*   **`src/App.tsx`**: Main application component, handling routing and integrating `ProtectedRoute` and `useSessionChecker`.
+*   **`src/main.tsx`**: Entry point for the React application, where `BrowserRouter`, `ThemeProvider`, and `AuthProvider` are initialized.
+*   **`src/index.css`**: Global CSS file, including Tailwind CSS directives and `shadcn/ui` CSS variables.
+*   **`tailwind.config.js`**: Tailwind CSS configuration, including `shadcn/ui` presets and `tailwindcss-animate` plugin.
+*   **`vite.config.ts`**: Vite configuration, including React plugin and path aliases.
 
 ## 5. Setup and Running Locally
 
@@ -103,7 +110,7 @@ The project is organized into two main top-level directories:
 *   PHP 8.3+
 *   Composer
 *   Node.js (LTS recommended)
-*   npm or pnpm
+*   pnpm
 *   A database (MySQL, PostgreSQL, or SQLite)
 
 ### Backend Setup
@@ -119,16 +126,16 @@ The project is organized into two main top-level directories:
     Open `.env` and configure your database connection. For SQLite, ensure `DB_CONNECTION=sqlite` and create an empty `database.sqlite` file in the `database/` directory.
 6.  **Run migrations and seeders:**
     `php artisan migrate:fresh --seed`
-    This will set up the database schema and populate it with initial roles, a test admin user, and demo safety check forms/responses.
+    This will set up the database schema and populate it with initial roles, a test admin user, and demo forms/responses.
 7.  **Create Filament Admin User:**
     `php artisan make:filament-user`
     Follow the prompts to create an admin user for the Filament dashboard.
 
 ### Frontend Setup
-1.  **Navigate to the frontend directory:**
-    `cd frontend`
+1.  **Navigate to the frontend-react directory:**
+    `cd frontend-react`
 2.  **Install Node.js dependencies:**
-    `npm install` (or `pnpm install`)
+    `pnpm install`
 
 ### Running the Application
 1.  **Start the Backend Server:**
@@ -136,8 +143,8 @@ The project is organized into two main top-level directories:
     `php artisan serve`
     (This will typically run on `http://127.0.0.1:8000`)
 2.  **Start the Frontend Development Server:**
-    From the `frontend` directory:
-    `pnpm run dev`
+    From the `frontend-react` directory:
+    `pnpm dev`
     (This will typically run on `http://localhost:5173`)
 
 Access the frontend application in your browser at `http://localhost:5173`.

@@ -1,4 +1,4 @@
-# 📄 Backend Development Plan – Dynamic Form Management System (Laravel 12 + Vue)
+# 📄 Backend Development Plan – Dynamic Form Management System (Laravel 12 + React)
 
 ## 📌 Project Overview
 
@@ -8,7 +8,7 @@ This project aims to build a **dynamic, self-hosted form management system** tha
 
 This roadmap outlines the key phases and milestones for the project. Progress will be tracked here.
 
-### Phase 1: Project Setup & Foundation (In Progress)
+### Phase 1: Project Setup & Foundation
 
 - [x] Set up Laravel 12 project with Docker.
 - [x] Initialize Git repository.
@@ -31,24 +31,31 @@ This roadmap outlines the key phases and milestones for the project. Progress wi
 
 ### Phase 4: Supervisor & Management Features
 
-- [x] Implement Supervisor API endpoints for viewing and filtering responses.
-- [x] Implement response export functionality (CSV/Excel).
-- [x] Set up role-based access control using Spatie Laravel Permission.
-- [x] Build or integrate a supervisor dashboard (Filament or custom).
+- [ ] Implement Supervisor API endpoints for viewing and filtering responses.
+- [ ] Implement response export functionality (CSV/Excel).
+- [ ] Set up role-based access control using Spatie Laravel Permission.
+- [ ] Build or integrate a supervisor dashboard (Filament or custom).
 
-### Phase 5: Frontend Implementation (Vue.js)
+### Phase 5: Frontend Implementation (React.js)
 
-- [x] Set up the Vue.js project.
+- [x] Set up the React.js project with Vite.
+- [x] Integrate `shadcn/ui` for UI components.
+- [x] Implement user authentication flow (login, logout, session persistence).
+- [x] Implement periodic session validity check.
+- [x] Develop Axios HTTP proxy for API calls.
 - [x] Develop components for rendering dynamic forms based on JSON schema.
-- [x] Implement user authentication flow (login, logout).
-- [x] Create views for form filling, including handling conditional logic and file uploads.
-- [x] Build the supervisor dashboard interface.
+- [x] Support various question types (text, number, boolean, 1-10 scales, file, photo, select, multiple select, radio, date).
+- [x] Implement conditional logic for questions.
+- [x] Implement form filling and submission, including file uploads.
+- [x] Create a page to list available forms.
+- [x] Create a page to demonstrate all field types.
+- [ ] Build the supervisor dashboard interface.
 
 ### Phase 6: Deployment & Finalization
 
 - [ ] Finalize Docker Compose configuration for production.
-- [x] Write comprehensive documentation.
-- [x] Perform final testing and bug fixing.
+- [ ] Write comprehensive documentation.
+- [ ] Perform final testing and bug fixing.
 
 ---
 
@@ -70,7 +77,8 @@ This roadmap outlines the key phases and milestones for the project. Progress wi
 - **Laravel 12 (PHP 8.3+)**
 - **MySQL** or **PostgreSQL**
 - **Laravel Sanctum** (API token-based authentication)
-- **Vue.js** (frontend, will consume Laravel API)
+- **React.js** (frontend, will consume Laravel API)
+- **shadcn/ui** (React UI components)
 - **Laravel File Storage** (for uploaded files/images)
 - **Docker Compose** for local deployment
 - **Scramble** (API documentation generator)
@@ -228,7 +236,7 @@ HTTPS certificates via Caddy or nginx self-signed if desired
 
 Summary Deliverables
 ✅ Laravel 12 API server
-✅ Vue-compatible JSON endpoints
+✅ React-compatible JSON endpoints
 ✅ Dynamic question renderer (defined by JSON schema)
 ✅ File uploads support
 ✅ Session-based resume
