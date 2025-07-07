@@ -40,7 +40,7 @@ class SafetyProcedureSeeder extends Seeder
             'json_schema' => [], // Will be populated with question IDs later
         ]);
 
-        // 2. Define Questions
+        // 2. Define Questions Data
         $questionsData = [
             [
                 'question_text' => 'Is the workplace clean and free of debris?',
@@ -88,26 +88,41 @@ class SafetyProcedureSeeder extends Seeder
             ],
         ];
 
-        $questions = [];
+        // Create the questions associated with the form and store them by their order for easy access
+        $createdQuestions = [];
         foreach ($questionsData as $qData) {
             $question = $form->questions()->create($qData);
-            $questions[$question->order] = $question;
+            $createdQuestions[$question->order] = $question;
         }
 
         // Update conditional rule for question 3 (If yes, please describe the obstruction.)
-        $questions[3]->update([
+        // Now using the actual ID from the created question
+        $createdQuestions[3]->update([
             'conditional_rules' => [
                 'show_if' => [
-                    'question_id' => $questions[2]->id, // Question 2: Are there objects blocking emergency exits or walkways?
+                    'question_id' => $createdQuestions[2]->id, // Question 2: Are there objects blocking emergency exits or walkways?
                     'operator' => 'equals',
                     'value' => true,
                 ],
             ],
         ]);
 
-        // Update form's json_schema with question IDs
+        // Build the json_schema for the form using the created questions' data
+        $formSchema = collect($createdQuestions)->sortBy('order')->map(function ($question) {
+            return [
+                'id' => $question->id,
+                'question_text' => $question->question_text,
+                'type' => $question->type,
+                'options' => $question->options, // This will be an array due to $casts in Model
+                'conditional_rules' => $question->conditional_rules, // This will be an array due to $casts in Model
+                'required' => (bool) $question->required,
+                'order' => (int) $question->order,
+            ];
+        })->values()->all();
+
+        // Update form's json_schema with question IDs and other data
         $form->update([
-            'json_schema' => array_values($questions),
+            'json_schema' => $formSchema,
         ]);
 
         // 3. Generate Responses and Answers
@@ -118,10 +133,10 @@ class SafetyProcedureSeeder extends Seeder
             'session_token' => Str::random(60),
             'submitted' => true,
         ]);
-        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $questions[1]->id, 'answer' => ['value' => false]]);
-        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $questions[2]->id, 'answer' => ['value' => false]]);
-        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $questions[4]->id, 'answer' => ['value' => true]]);
-        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $questions[5]->id, 'answer' => ['value' => 'Assembly Line']]);
+        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $createdQuestions[1]->id, 'answer' => ['value' => false]]);
+        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $createdQuestions[2]->id, 'answer' => ['value' => false]]);
+        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $createdQuestions[4]->id, 'answer' => ['value' => true]]);
+        ResponseAnswer::create(['response_id' => $response1->id, 'question_id' => $createdQuestions[5]->id, 'answer' => ['value' => 'Assembly Line']]);
 
         // Response 2: Obstruction found
         $response2 = Response::create([
@@ -130,11 +145,11 @@ class SafetyProcedureSeeder extends Seeder
             'session_token' => Str::random(60),
             'submitted' => true,
         ]);
-        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $questions[1]->id, 'answer' => ['value' => true]]);
-        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $questions[2]->id, 'answer' => ['value' => true]]);
-        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $questions[3]->id, 'answer' => ['value' => 'Box blocking fire exit.']]);
-        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $questions[4]->id, 'answer' => ['value' => false]]);
-        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $questions[5]->id, 'answer' => ['value' => 'Warehouse']]);
+        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $createdQuestions[1]->id, 'answer' => ['value' => true]]);
+        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $createdQuestions[2]->id, 'answer' => ['value' => true]]);
+        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $createdQuestions[3]->id, 'answer' => ['value' => 'Box blocking fire exit.']]);
+        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $createdQuestions[4]->id, 'answer' => ['value' => false]]);
+        ResponseAnswer::create(['response_id' => $response2->id, 'question_id' => $createdQuestions[5]->id, 'answer' => ['value' => 'Warehouse']]);
 
         // Response 3: Incomplete (saved progress)
         $response3 = Response::create([
@@ -143,7 +158,7 @@ class SafetyProcedureSeeder extends Seeder
             'session_token' => Str::random(60),
             'submitted' => false,
         ]);
-        ResponseAnswer::create(['response_id' => $response3->id, 'question_id' => $questions[1]->id, 'answer' => ['value' => true]]);
-        ResponseAnswer::create(['response_id' => $response3->id, 'question_id' => $questions[2]->id, 'answer' => ['value' => false]]);
+        ResponseAnswer::create(['response_id' => $response3->id, 'question_id' => $createdQuestions[1]->id, 'answer' => ['value' => true]]);
+        ResponseAnswer::create(['response_id' => $response3->id, 'question_id' => $createdQuestions[2]->id, 'answer' => ['value' => false]]);
     }
 }
