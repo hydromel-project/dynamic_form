@@ -13,7 +13,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        return FormResource::collection(Form::all());
+        return FormResource::collection(Form::with('questions')->get()); // Eager load questions
     }
 
     /**
@@ -29,7 +29,7 @@ class FormController extends Controller
 
         $form = Form::create($validated);
 
-        return new FormResource($form); // Use FormResource
+        return new FormResource($form->load('questions')); // Eager load questions after creation
     }
 
     /**
@@ -37,7 +37,7 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        return new FormResource($form); // Use FormResource
+        return new FormResource($form->load('questions')); // Eager load questions
     }
 
     /**
@@ -53,7 +53,7 @@ class FormController extends Controller
 
         $form->update($validated);
 
-        return new FormResource($form); // Use FormResource
+        return new FormResource($form->load('questions')); // Eager load questions after update
     }
 
     /**
